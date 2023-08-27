@@ -140,6 +140,7 @@ export default function Draggable(props: Props) {
     const style: DraggableStyle = getStyle(mapped);
     const onTransitionEnd =
       mapped.type === 'DRAGGING' && mapped.dropping ? onMoveEnd : null;
+    const { dimension } = mapped;
 
     const result: Provided = {
       innerRef: setRef,
@@ -150,8 +151,8 @@ export default function Draggable(props: Props) {
         onTransitionEnd,
       },
       dragHandleProps,
+      dimension,
     };
-
     return result;
   }, [contextId, dragHandleProps, draggableId, mapped, onMoveEnd, setRef]);
 
