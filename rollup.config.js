@@ -50,7 +50,7 @@ export default [
   {
     input,
     output: {
-      file: 'dist/react-beautiful-dnd.js',
+      file: 'dist/rbdnd-custom.js',
       format: 'umd',
       name: 'ReactBeautifulDnd',
       globals: { react: 'React', 'react-dom': 'ReactDOM' },
@@ -71,7 +71,7 @@ export default [
   {
     input,
     output: {
-      file: 'dist/react-beautiful-dnd.min.js',
+      file: 'dist/rbdnd-custom.min.js',
       format: 'umd',
       name: 'ReactBeautifulDnd',
       globals: { react: 'React', 'react-dom': 'ReactDOM' },
