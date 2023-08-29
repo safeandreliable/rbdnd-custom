@@ -45,7 +45,9 @@ import getBorderBoxCenterPosition from '../get-border-box-center-position';
 import { warning } from '../../dev-warning';
 import useLayoutEffect from '../use-isomorphic-layout-effect';
 import { noop } from '../../empty';
-import findClosestDraggableIdFromEvent from './find-closest-draggable-id-from-event';
+import findClosestDraggableIdFromEvent, {
+  findClosestDragHandleFromEvent,
+} from './find-closest-draggable-id-from-event';
 import findDraggable from '../get-elements/find-draggable';
 import bindEvents from '../event-bindings/bind-events';
 
@@ -220,6 +222,7 @@ function tryStart({
       lockAPI.release();
       phase = 'COMPLETED';
     }
+
     // Double lift = bad
     if (phase !== 'PRE_DRAG') {
       completed();
@@ -233,7 +236,7 @@ function tryStart({
 
     function finish(
       reason: 'CANCEL' | 'DROP',
-      options?: StopDragOptions = { shouldBlockNextClick: false },
+      options?: { shouldBlockNextClick: false },
     ) {
       args.cleanup();
 
@@ -438,6 +441,12 @@ export default function useSensorMarshal({
     [contextId, lockAPI, registry, store],
   );
 
+  const findClosestDragHandle = useCallback(
+    (event: Event): ?DraggableId =>
+      findClosestDragHandleFromEvent(contextId, event),
+    [contextId],
+  );
+
   const findClosestDraggableId = useCallback(
     (event: Event): ?DraggableId =>
       findClosestDraggableIdFromEvent(contextId, event),
@@ -473,6 +482,7 @@ export default function useSensorMarshal({
       canGetLock,
       tryGetLock,
       findClosestDraggableId,
+      findClosestDragHandle,
       findOptionsForDraggable,
       tryReleaseLock,
       isLockClaimed,
@@ -481,6 +491,7 @@ export default function useSensorMarshal({
       canGetLock,
       tryGetLock,
       findClosestDraggableId,
+      findClosestDragHandle,
       findOptionsForDraggable,
       tryReleaseLock,
       isLockClaimed,

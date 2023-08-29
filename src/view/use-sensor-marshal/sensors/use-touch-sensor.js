@@ -5,9 +5,9 @@ import type { Position } from 'css-box-model';
 import { invariant } from '../../../invariant';
 import type {
   DraggableId,
-  SensorAPI,
-  PreDragActions,
   FluidDragActions,
+  PreDragActions,
+  SensorAPI,
 } from '../../../types';
 import type {
   EventBinding,
@@ -293,11 +293,14 @@ export default function useTouchSensor(api: SensorAPI) {
           y: clientY,
         };
 
+        const handle: ?HTMLElement = api.findClosestDragHandle(event);
+        invariant(handle, 'Touch sensor unable to find drag handle');
+
         // unbind this event handler
         unbindEventsRef.current();
 
         // eslint-disable-next-line no-use-before-define
-        startPendingDrag(actions, point);
+        startPendingDrag(actions, point, handle);
       },
     }),
     // not including stop or startPendingDrag as it is not defined initially
@@ -350,7 +353,7 @@ export default function useTouchSensor(api: SensorAPI) {
   }, [stop]);
 
   const bindCapturingEvents = useCallback(
-    function bindCapturingEvents() {
+    function bindCapturingEvents(target: HTMLElement) {
       const options: EventOptions = { capture: true, passive: false };
       const args: GetBindingArgs = {
         cancel,
@@ -366,7 +369,7 @@ export default function useTouchSensor(api: SensorAPI) {
       // Old behaviour:
       // https://gist.github.com/parris/dda613e3ae78f14eb2dc9fa0f4bfce3d
       // https://stackoverflow.com/questions/33298828/touch-move-event-dont-fire-after-touch-start-target-is-removed
-      const unbindTarget = bindEvents(window, getHandleBindings(args), options);
+      const unbindTarget = bindEvents(target, getHandleBindings(args), options);
       const unbindWindow = bindEvents(window, getWindowBindings(args), options);
 
       unbindEventsRef.current = function unbindAll() {
@@ -397,7 +400,11 @@ export default function useTouchSensor(api: SensorAPI) {
   );
 
   const startPendingDrag = useCallback(
-    function startPendingDrag(actions: PreDragActions, point: Position) {
+    function startPendingDrag(
+      actions: PreDragActions,
+      point: Position,
+      target: HTMLElement,
+    ) {
       invariant(
         getPhase().type === 'IDLE',
         'Expected to move from IDLE to PENDING drag',
@@ -415,7 +422,7 @@ export default function useTouchSensor(api: SensorAPI) {
         longPressTimerId,
       });
 
-      bindCapturingEvents();
+      bindCapturingEvents(target);
     },
     [bindCapturingEvents, getPhase, setPhase, startDragging],
   );
@@ -445,7 +452,7 @@ export default function useTouchSensor(api: SensorAPI) {
   // touchmove event handlers to actually work
   // https://github.com/atlassian/react-beautiful-dnd/issues/1374
   useLayoutEffect(function webkitHack() {
-    const unbind = bindEvents(window, [
+    return bindEvents(window, [
       {
         eventName: 'touchmove',
         // using a new noop function for each usage as a single `removeEventListener()`
@@ -455,7 +462,5 @@ export default function useTouchSensor(api: SensorAPI) {
         options: { capture: false, passive: false },
       },
     ]);
-
-    return unbind;
   }, []);
 }

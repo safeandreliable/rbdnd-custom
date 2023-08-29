@@ -24,26 +24,26 @@
     }
   },
   "dist\\rbdnd-custom.js": {
-    "bundled": 365173,
-    "minified": 133674,
-    "gzipped": 39511
+    "bundled": 365243,
+    "minified": 133700,
+    "gzipped": 39519
   },
   "dist\\rbdnd-custom.min.js": {
-    "bundled": 306941,
-    "minified": 108443,
-    "gzipped": 31378
+    "bundled": 307011,
+    "minified": 108469,
+    "gzipped": 31386
   },
   "dist\\rbdnd-custom.esm.js": {
-    "bundled": 241001,
-    "minified": 125459,
-    "gzipped": 32676,
+    "bundled": 241067,
+    "minified": 125485,
+    "gzipped": 32683,
     "treeshaked": {
       "rollup": {
-        "code": 21121,
+        "code": 21147,
         "import_statements": 503
       },
       "webpack": {
-        "code": 24005
+        "code": 24031
       }
     }
   }

@@ -6,7 +6,8 @@ const config = {
   startFromPercentage: 0.25,
   maxScrollAtPercentage: 0.05,
   // pixels per frame
-  maxPixelScroll: 14,
+  // maxPixelScroll: 28,
+  maxPixelScroll: 7,
 
   // A function used to ease a percentage value
   // A simple linear function would be: (percentage) => percentage;
