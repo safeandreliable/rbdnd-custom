@@ -6,10 +6,10 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sp4c3c4d3t/rbdnd-custom.git"
+    "url": "https://github.com/safeandreliable/rbdnd-custom.git"
   },
   "bugs": {
-    "url": "https://github.com/sp4c3c4d3t/rbdnd-custom/issues"
+    "url": "https://github.com/safeandreliable/rbdnd-custom/issues"
   },
   "main": "dist/rbdnd-custom.cjs.js",
   "module": "dist/rbdnd-custom.esm.js",
