@@ -1,6 +1,6 @@
 {
   "name": "rbdnd-custom",
-  "version": "0.0.1",
+  "version": "v0.0.1",
   "description": "Custom implementation of the unsupported React Beautiful DnD library",
   "author": "sp4c3c4d3t",
   "keywords": [],
